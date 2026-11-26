@@ -62,11 +62,13 @@ publisher's own computer, and publishes it here as a release asset.
 |---|---|
 | `logos-repo.json` | What Basecamp reads first: the catalogue's name, the publisher key it trusts, and where the listing is |
 | `packages.txt` | Which release of which app is in the catalogue |
-| `scripts/prepare.sh` | Downloads and merges the per-platform packages. Signs nothing |
-| `scripts/sign.sh` | Signs the merged packages. The only step that uses the secret key |
-| `scripts/publish.sh` | Checks every package is signed by the trusted key, uploads it, rebuilds and uploads the listing |
+| `scripts/release.sh` | The whole update in one command: finds each app's newest release, merges and signs what is new, checks every package against the trusted key, publishes the packages and the listing |
+| `.github/workflows/behind.yml` | Once a day, opens an issue here if an app has a newer release than the catalogue serves |
 | release `index` | The generated listing (`index.json`) and icons |
 | releases `<app>-v<version>` | The signed packages |
+
+The secret key is not on GitHub, so nothing here can sign on its own. The daily check only reminds;
+the publisher runs `scripts/release.sh`.
 
 The formats are those of the official Logos catalogue, and the listing is written with
 [`logos-modules-release-tool`](https://github.com/logos-co/logos-modules-release-tool).

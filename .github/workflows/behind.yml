@@ -1,0 +1,43 @@
+name: catalogue-behind
+
+# Once a day, compares packages.txt with each app's newest release. When the
+# catalogue is behind, it opens (or updates) one issue saying so. Signing needs
+# the publisher key, which is not on GitHub, so this only reminds: the update
+# itself is scripts/release.sh, run by the publisher.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare with the newest releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          behind=""
+          while read -r repo tag name attach <&3; do
+            latest="$(gh api "repos/${repo}/releases/latest" --jq .tag_name)"
+            if [ "$latest" != "$tag" ]; then
+              behind="${behind}- ${name}: the catalogue has ${tag}, the newest release is ${latest} (${repo})"$'\n'
+            fi
+          done 3< <(grep -vE '^\s*(#|$)' packages.txt)
+          title="The catalogue is behind"
+          open="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')"
+          if [ -z "$behind" ]; then
+            echo "up to date"
+            if [ -n "$open" ]; then gh issue close "$open" --repo "$GITHUB_REPOSITORY" --comment "Up to date again."; fi
+            exit 0
+          fi
+          body="$(printf 'These apps have a newer release than the catalogue serves:\n\n%s\nTo update, run `scripts/release.sh` on the computer that holds the publisher key.\n' "$behind")"
+          if [ -n "$open" ]; then gh issue edit "$open" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$body"; fi
