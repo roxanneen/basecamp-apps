@@ -98,6 +98,12 @@ for p in packages:
         </footer>
       </article>""")
 
+more = site.get("more")
+more_html = ""
+if more:
+    items = "".join(f'<li><a href="{e(l["url"])}">{e(l["label"])}</a> <span class="hint">{e(l["url"].replace("https://", "").rstrip("/"))}</span></li>' for l in more["links"])
+    more_html = f'  <h2 id="more">{e(more["heading"])}</h2>\n  <ul class="more">{items}</ul>\n'
+
 page = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -168,6 +174,9 @@ page = f"""<!doctype html>
   .trust strong {{ color: var(--text); }}
   .fp code {{ display: inline-block; font-size: 1.35rem; letter-spacing: 0.08em; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--text); background: var(--surface); }}
   .key {{ display: block; margin-top: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; }}
+  ul.more {{ list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }}
+  ul.more li {{ background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; }}
+  ul.more a {{ font-weight: 600; }}
   .foot {{ margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.9rem; }}
   .sr {{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }}
 </style>
@@ -217,6 +226,7 @@ page = f"""<!doctype html>
   </p>
   <p><button class="copy ghost" type="button" data-copy="did">Copy key</button></p>
 
+{more_html}
   <p class="foot">Catalogue source and scripts: <a href="{e(HOME)}">{e(HOME.replace('https://', ''))}</a>. This page loads nothing from other sites and does not track you.</p>
 </main>
 <script>

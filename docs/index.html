@@ -68,6 +68,9 @@
   .trust strong { color: var(--text); }
   .fp code { display: inline-block; font-size: 1.35rem; letter-spacing: 0.08em; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--text); background: var(--surface); }
   .key { display: block; margin-top: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; }
+  ul.more { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  ul.more li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  ul.more a { font-weight: 600; }
   .foot { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.9rem; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
@@ -180,6 +183,9 @@
     <code class="key" id="did">did:jwk:eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6InZTcmo2S2JLellTXzFYdnU4YWNOYzd4SEJreTNjeTEzZmxJNXdjU21JWEUifQ</code>
   </p>
   <p><button class="copy ghost" type="button" data-copy="did">Copy key</button></p>
+
+  <h2 id="more">Discover more hobby apps built in Logos Basecamp</h2>
+  <ul class="more"><li><a href="https://apps.vpavlin.xyz/">vpavlin&#x27;s catalogue</a> <span class="hint">apps.vpavlin.xyz</span></li><li><a href="https://apps.alisher.xyz/">alisher&#x27;s catalogue</a> <span class="hint">apps.alisher.xyz</span></li></ul>
 
   <p class="foot">Catalogue source and scripts: <a href="https://github.com/roxanneen/basecamp-apps">github.com/roxanneen/basecamp-apps</a>. This page loads nothing from other sites and does not track you.</p>
 </main>

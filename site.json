@@ -23,5 +23,18 @@
       "blurb": "An experiment: presence beacons that rotate so an observer cannot link them to each other, while your friends still recognise you. Simulated locally or carried over Logos Messaging.",
       "source": "https://github.com/IP3-Studio/Basecamp-presence-pilot"
     }
+  },
+  "more": {
+    "heading": "Discover more hobby apps built in Logos Basecamp",
+    "links": [
+      {
+        "label": "vpavlin's catalogue",
+        "url": "https://apps.vpavlin.xyz/"
+      },
+      {
+        "label": "alisher's catalogue",
+        "url": "https://apps.alisher.xyz/"
+      }
+    ]
   }
 }
