@@ -46,7 +46,7 @@ DID="$(python3 -c 'import json; print(json.load(open("logos-repo.json"))["truste
 case "$DID" in did:jwk:*) ;; *) die "logos-repo.json has no publisher key";; esac
 
 # ---- 1. newest release of each app ------------------------------------------
-tmp="$(mktemp)"; behind=0
+tmp="$(mktemp)"; behind=0; pending=0
 while IFS= read -r line <&3; do
   case "$line" in ''|'#'*) printf '%s\n' "$line" >> "$tmp"; continue;; esac
   read -r repo tag name attach <<< "$line"
@@ -56,16 +56,34 @@ while IFS= read -r line <&3; do
   latest="$(gh api "repos/${repo}/releases?per_page=20" --jq '[.[] | select(.draft | not)][0].tag_name // empty')"
   [ -n "$latest" ] || die "cannot read the newest release of ${repo}"
   if [ "$latest" != "$tag" ]; then
-    say "${name}: ${tag} -> ${latest}"; behind=1; tag="$latest"
+    # Only move to a release whose three per-platform files are attached:
+    # its build may still be running.
+    have="$(gh release view "$latest" --repo "$repo" --json assets --jq '[.assets[].name] | join(" ")')"
+    missing=""
+    for p in darwin-arm64 linux-x86_64 linux-aarch64; do
+      case " $have " in *" ${name}-${p}.lgx "*) ;; *) missing="$missing ${p}";; esac
+    done
+    if [ -n "$missing" ]; then
+      say "${name}: ${latest} is not ready yet (no files for:${missing}); its build is probably still running. Keeping ${tag}."
+      pending=1
+    else
+      say "${name}: ${tag} -> ${latest}"; behind=1; tag="$latest"
+    fi
   fi
   printf '%s\n' "${repo} ${tag} ${name}${attach:+ ${attach}}" >> "$tmp"
 done 3< packages.txt
 if [ "$CHECK_ONLY" = 1 ]; then
   rm -f "$tmp"
-  [ "$behind" = 0 ] && say "the catalogue is up to date" || say "the catalogue is behind; run scripts/release.sh"
+  if [ "$behind" = 1 ]; then say "the catalogue is behind; run scripts/release.sh"
+  elif [ "$pending" = 1 ]; then say "nothing to publish yet; run scripts/release.sh again when the build has finished"
+  else say "the catalogue is up to date"; fi
   exit "$behind"
 fi
 mv "$tmp" packages.txt
+if [ "$behind" = 0 ] && [ "$pending" = 1 ]; then
+  say "nothing to publish yet; run this again when the build has finished"
+  exit 0
+fi
 
 # ---- 2 and 3. one signed package per app in staging/ ------------------------
 rm -f staging/*.lgx staging/urls.txt
