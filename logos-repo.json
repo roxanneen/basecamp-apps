@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "name": "thehat-basecamp-apps",
+  "displayName": "Basecamp apps by thehat (unofficial)",
+  "description": "Unofficial hobby apps for Logos Basecamp: Manifesto, OneSecret, Chess and the Presence pilot. Not Logos products. Signed by thehat.",
+  "homepage": "https://github.com/roxanneen/basecamp-apps",
+  "indexUrl": "https://github.com/roxanneen/basecamp-apps/releases/download/index/index.json",
+  "trustedSigners": [
+    {
+      "did": "did:jwk:eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6InZTcmo2S2JLellTXzFYdnU4YWNOYzd4SEJreTNjeTEzZmxJNXdjU21JWEUifQ",
+      "name": "thehat"
+    }
+  ]
+}
