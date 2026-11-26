@@ -1,0 +1,27 @@
+{
+  "title": "Basecamp apps by thehat",
+  "tagline": "Unofficial hobby apps for Logos Basecamp. Add the catalogue once, then install and update them from inside Basecamp.",
+  "apps": {
+    "manifesto_ui": {
+      "title": "Manifesto",
+      "blurb": "Read the Logos manifesto and sign it in one click. The app makes a signing key for you, so you need no account, and anyone can check your signature without a server.",
+      "source": "https://github.com/roxanneen/Manifesto-app",
+      "guide": "https://github.com/roxanneen/Manifesto-app/blob/main/docs/INSTALL.md"
+    },
+    "onesecret_ui": {
+      "title": "OneSecret",
+      "blurb": "Share a secret that can be read once. You paste it and get a link. Whoever opens the link gets the secret, and your own Basecamp destroys the key on the first read. There is no server.",
+      "source": "https://github.com/IP3-Studio/OneSecret"
+    },
+    "chess_ui": {
+      "title": "Chess",
+      "blurb": "Play chess against the Stockfish engine, pass and play on one computer, or play a friend online with chat.",
+      "source": "https://github.com/IP3-Studio/Basecamp-chess-app"
+    },
+    "presence_ui": {
+      "title": "Presence pilot",
+      "blurb": "An experiment: presence beacons that rotate so an observer cannot link them to each other, while your friends still recognise you. Simulated locally or carried over Logos Messaging.",
+      "source": "https://github.com/IP3-Studio/Basecamp-presence-pilot"
+    }
+  }
+}

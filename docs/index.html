@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basecamp apps by thehat</title>
+<meta name="description" content="Unofficial hobby apps for Logos Basecamp. Add the catalogue once, then install and update them from inside Basecamp.">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2315171b'/%3E%3Cpath d='M6 22h20v2H6zM10 21c0-7 2-11 6-11s6 4 6 11z' fill='%23e0a04a'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #111317; --surface: #1a1d23; --surface-2: #20242b; --line: #2c313a;
+    --text: #ece8dc; --muted: #a39f94; --faint: #7c796f;
+    --accent: #e0a04a; --accent-ink: #1a1408; --ok: #7fc48b; --warn: #e0a04a;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f3ec; --surface: #ffffff; --surface-2: #f1ede3; --line: #ddd7c9;
+      --text: #1d1c19; --muted: #5d5a52; --faint: #86827a;
+      --accent: #a8661a; --accent-ink: #ffffff; --ok: #2f7d3f; --warn: #a8661a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; }
+  code, .mono { font-family: var(--mono); font-size: 0.875em; }
+  main { max-width: 1040px; margin: 0 auto; padding: 40px 20px 64px; }
+  .masthead { display: flex; gap: 16px; align-items: center; margin-bottom: 10px; }
+  .mark { flex: none; width: 52px; height: 52px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; }
+  .mark svg { width: 30px; height: 30px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .tagline { color: var(--muted); font-size: 1.05rem; max-width: 62ch; margin: 8px 0 0; }
+  .notice { margin: 22px 0 0; padding: 12px 16px; border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 8px; background: var(--surface); color: var(--muted); font-size: 0.95rem; }
+  .notice strong { color: var(--text); }
+  h2 { font-size: 1.15rem; margin: 40px 0 12px; letter-spacing: 0.01em; }
+  .add { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .address { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+  .address code { flex: 1 1 320px; min-width: 0; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; font-size: 0.9rem; }
+  button.copy { flex: none; font: 600 0.95rem var(--sans); padding: 0 18px; min-height: 44px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+  button.copy.ghost { background: transparent; color: var(--accent); }
+  button.copy:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  ol.steps { margin: 16px 0 0; padding-left: 1.3em; color: var(--muted); }
+  ol.steps li { margin: 6px 0; }
+  ol.steps strong { color: var(--text); }
+  .platforms { margin: 14px 0 0; color: var(--muted); font-size: 0.95rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; }
+  .card header { display: flex; gap: 14px; align-items: center; }
+  .icon { width: 56px; height: 56px; border-radius: 12px; flex: none; background: var(--surface-2); object-fit: cover; }
+  .card h3 { margin: 0; font-size: 1.15rem; }
+  .tags { margin: 4px 0 0; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); text-transform: capitalize; }
+  .tag.signed { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); text-transform: none; }
+  .tag.unsigned { color: var(--warn); text-transform: none; }
+  .blurb { margin: 14px 0 10px; }
+  .meta { margin: 4px 0; color: var(--muted); font-size: 0.9rem; }
+  .label { display: inline-block; min-width: 4.6em; color: var(--faint); }
+  .hint { color: var(--faint); }
+  .card footer { margin-top: auto; padding-top: 14px; display: flex; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--line); }
+  .card footer { margin-top: 14px; }
+  .links { display: flex; gap: 14px; flex-wrap: wrap; }
+  .trust { color: var(--muted); }
+  .trust li { margin: 6px 0; }
+  .trust strong { color: var(--text); }
+  .key { display: block; margin-top: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; }
+  .foot { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.9rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<main>
+  <div class="masthead">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32"><path d="M4 23h24v2.4H4zM9.5 22c0-8.5 2.4-13 6.5-13s6.5 4.500 6.5 13z" fill="var(--accent)"/></svg>
+    </div>
+    <h1>Basecamp apps by thehat</h1>
+  </div>
+  <p class="tagline">Unofficial hobby apps for Logos Basecamp. Add the catalogue once, then install and update them from inside Basecamp.</p>
+
+  <p class="notice"><strong>Not official.</strong> These are personal, experimental hobby projects. They are not Logos products, they have not been audited, and they come with no warranty. They are not affiliated with or endorsed by Logos or Basecamp.</p>
+
+  <h2 id="add">Add the catalogue to Basecamp</h2>
+  <section class="add" aria-labelledby="add">
+    <div class="address">
+      <code id="repo-url">https://raw.githubusercontent.com/roxanneen/basecamp-apps/main/logos-repo.json</code>
+      <button class="copy" type="button" data-copy="repo-url">Copy address</button>
+    </div>
+    <ol class="steps">
+      <li>In Basecamp, open <strong>Package Manager</strong>, then <strong>Manage Repositories</strong>.</li>
+      <li>Paste the address into <strong>Add a repository</strong> and add it.</li>
+      <li>Go back to Package Manager. The apps below appear in the list. Pick one and install it.</li>
+    </ol>
+    <p class="platforms">Works with Basecamp 0.3.2 or newer on macOS with an Apple chip and on 64-bit Linux desktops. Not on Windows, Intel Macs, phones or tablets. New to Basecamp? <a href="https://github.com/roxanneen/Manifesto-app/blob/main/docs/INSTALL.md">Follow the step-by-step guide</a>, or <a href="https://github.com/logos-co/logos-basecamp/releases/latest">download Basecamp</a>.</p>
+  </section>
+
+  <h2 id="apps">The apps</h2>
+  <section class="grid" aria-labelledby="apps">
+      <article class="card" id="manifesto_ui">
+        <header>
+          <img class="icon" src="icons/dc7ba98bd40924ec49b4c04f7279f33f93cbc75344da8681c8bac98ff78ed08c.png" alt="" width="56" height="56">
+          <div>
+            <h3>Manifesto</h3>
+            <p class="tags"><span class="tag">social</span><span class="tag signed">signed by thehat</span></p>
+          </div>
+        </header>
+        <p class="blurb">Read the Logos manifesto and sign it in one click. The app makes a signing key for you, so you need no account, and anyone can check your signature without a server.</p>
+        <p class="meta"><span class="label">Needs</span> nothing else</p>
+        <p class="meta"><span class="label">Runs on</span> macOS, Apple chip, Linux x86_64, Linux ARM64</p>
+        <footer>
+          <span class="version"><code>manifesto_ui</code> · v0.1.3 · 18.3 MB</span>
+          <span class="links"><a href="https://github.com/roxanneen/Manifesto-app/blob/main/docs/INSTALL.md">Step-by-step guide</a> <a href="https://github.com/roxanneen/Manifesto-app">Source</a> <a href="https://github.com/roxanneen/basecamp-apps/releases/download/manifesto_ui-v0.1.3/manifesto_ui-0.1.3.lgx">Package file</a></span>
+        </footer>
+      </article>
+      <article class="card" id="onesecret_ui">
+        <header>
+          <img class="icon" src="icons/2b100fd8d456b4d015f6390303b42a5ff402784aef138744951f5bc9bcb7c976.png" alt="" width="56" height="56">
+          <div>
+            <h3>OneSecret</h3>
+            <p class="tags"><span class="tag">privacy</span><span class="tag signed">signed by thehat</span></p>
+          </div>
+        </header>
+        <p class="blurb">Share a secret that can be read once. You paste it and get a link. Whoever opens the link gets the secret, and your own Basecamp destroys the key on the first read. There is no server.</p>
+        <p class="meta"><span class="label">Needs</span> <code>delivery_module</code> <span class="hint">from the official Logos catalogue; Basecamp fetches it for you</span></p><p class="meta"><span class="label">Optional</span> <code>names</code></p>
+        <p class="meta"><span class="label">Runs on</span> macOS, Apple chip, Linux x86_64, Linux ARM64</p>
+        <footer>
+          <span class="version"><code>onesecret_ui</code> · v0.3.2 · 13.4 MB</span>
+          <span class="links"><a href="https://github.com/IP3-Studio/OneSecret">Source</a> <a href="https://github.com/roxanneen/basecamp-apps/releases/download/onesecret_ui-v0.3.2/onesecret_ui-0.3.2.lgx">Package file</a></span>
+        </footer>
+      </article>
+      <article class="card" id="chess_ui">
+        <header>
+          <img class="icon" src="icons/0d095b65e10bb831a7dd0a2a724589da281eae97521bf134aed28c6645177a6d.png" alt="" width="56" height="56">
+          <div>
+            <h3>Chess</h3>
+            <p class="tags"><span class="tag">games</span><span class="tag signed">signed by thehat</span></p>
+          </div>
+        </header>
+        <p class="blurb">Play chess against the Stockfish engine, pass and play on one computer, or play a friend online with chat.</p>
+        <p class="meta"><span class="label">Needs</span> <code>delivery_module</code> <span class="hint">from the official Logos catalogue; Basecamp fetches it for you</span></p>
+        <p class="meta"><span class="label">Runs on</span> macOS, Apple chip, Linux x86_64, Linux ARM64</p>
+        <footer>
+          <span class="version"><code>chess_ui</code> · v0.3.0 · 11.7 MB</span>
+          <span class="links"><a href="https://github.com/IP3-Studio/Basecamp-chess-app">Source</a> <a href="https://github.com/roxanneen/basecamp-apps/releases/download/chess_ui-v0.3.0/chess_ui-0.3.0.lgx">Package file</a></span>
+        </footer>
+      </article>
+      <article class="card" id="presence_ui">
+        <header>
+          <img class="icon" src="icons/f9f2af5da77d1406e45e194fe2a165b233d89cfaee53fe060ddadfecd971ac4f.png" alt="" width="56" height="56">
+          <div>
+            <h3>Presence pilot</h3>
+            <p class="tags"><span class="tag">privacy</span><span class="tag signed">signed by thehat</span></p>
+          </div>
+        </header>
+        <p class="blurb">An experiment: presence beacons that rotate so an observer cannot link them to each other, while your friends still recognise you. Simulated locally or carried over Logos Messaging.</p>
+        <p class="meta"><span class="label">Needs</span> nothing else</p><p class="meta"><span class="label">Optional</span> <code>delivery_module</code></p>
+        <p class="meta"><span class="label">Runs on</span> macOS, Apple chip, Linux x86_64, Linux ARM64</p>
+        <footer>
+          <span class="version"><code>presence_ui</code> · v0.1.3 · 12.8 MB</span>
+          <span class="links"><a href="https://github.com/IP3-Studio/Basecamp-presence-pilot">Source</a> <a href="https://github.com/roxanneen/basecamp-apps/releases/download/presence_ui-v0.1.3/presence_ui-0.1.3.lgx">Package file</a></span>
+        </footer>
+      </article>
+  </section>
+
+  <h2 id="trust">What adding it means</h2>
+  <ul class="trust">
+    <li><strong>You are trusting the publisher.</strong> Every Basecamp app runs inside your Basecamp session with no sandbox. Adding a catalogue means trusting whoever signs its packages.</li>
+    <li><strong>The packages are signed.</strong> Each one carries a signature made with the publisher key below. Basecamp checks it, and the file's hash, before installing.</li>
+    <li><strong>The signature says who published the file.</strong> It does not say the app is safe or reviewed. Each app's code is in its own repository, linked on its card.</li>
+    <li><strong>This catalogue lists only these apps.</strong> It never lists a package from the official Logos catalogue.</li>
+  </ul>
+  <p class="trust">Publisher key of <strong>thehat</strong>:
+    <code class="key" id="did">did:jwk:eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6InZTcmo2S2JLellTXzFYdnU4YWNOYzd4SEJreTNjeTEzZmxJNXdjU21JWEUifQ</code>
+  </p>
+  <p><button class="copy ghost" type="button" data-copy="did">Copy key</button></p>
+
+  <p class="foot">Catalogue source and scripts: <a href="https://github.com/roxanneen/basecamp-apps">github.com/roxanneen/basecamp-apps</a>. This page loads nothing from other sites and does not track you.</p>
+</main>
+<script>
+  // Copy buttons. The page reads fully without this script.
+  document.querySelectorAll('button[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var text = document.getElementById(b.dataset.copy).textContent.trim();
+      var label = b.textContent;
+      var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = label; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { b.textContent = 'Select and copy'; });
+      } else {
+        var r = document.createRange(); r.selectNodeContents(document.getElementById(b.dataset.copy));
+        var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); done(); } catch (err) { b.textContent = 'Select and copy'; }
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -5,6 +5,8 @@
 > any kind and no affiliation with or endorsement by any of the projects they
 > interoperate with.
 
+**Web page: <https://roxanneen.github.io/basecamp-apps/>**
+
 A package catalogue for [Logos Basecamp](https://github.com/logos-co/logos-basecamp). Add it once in
 Basecamp and you can install and update these apps from inside Basecamp, signed by **thehat**.
 
@@ -63,6 +65,7 @@ publisher's own computer, and publishes it here as a release asset.
 | `logos-repo.json` | What Basecamp reads first: the catalogue's name, the publisher key it trusts, and where the listing is |
 | `packages.txt` | Which release of which app is in the catalogue |
 | `scripts/release.sh` | The whole update in one command: finds each app's newest release, merges and signs what is new, checks every package against the trusted key, publishes the packages and the listing |
+| `site.json`, `scripts/build_site.py`, `docs/` | The web page: app titles and short descriptions written by hand, the generator, and its output, served by GitHub Pages |
 | `.github/workflows/behind.yml` | Once a day, opens an issue here if an app has a newer release than the catalogue serves |
 | release `index` | The generated listing (`index.json`) and icons |
 | releases `<app>-v<version>` | The signed packages |

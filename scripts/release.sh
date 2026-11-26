@@ -16,7 +16,7 @@
 #      uploads new packages, rebuilds and uploads the listing
 #   5. for lines marked "attach", puts the signed package on the app's own
 #      release as <package>.lgx and makes that release the app's latest
-#   6. commits and pushes packages.txt
+#   6. rebuilds the web page in docs/ and commits and pushes it with packages.txt
 set -euo pipefail
 cd "$(dirname "$0")/.."
 REPO="${REPO:-roxanneen/basecamp-apps}"
@@ -117,6 +117,10 @@ gh release view index --repo "$REPO" >/dev/null 2>&1 || \
 gh release upload index staging/index/* --repo "$REPO" --clobber >/dev/null
 say "listing published"
 
+# The web page (docs/, served by GitHub Pages) is written from the same listing.
+python3 scripts/build_site.py staging/index/index.json staging/index >/dev/null
+say "web page rebuilt"
+
 # ---- 5. signed copy on the app's own release --------------------------------
 while read -r repo tag name attach <&3; do
   [ "${attach:-}" = "attach" ] || continue
@@ -130,10 +134,10 @@ while read -r repo tag name attach <&3; do
 done 3< <(grep -vE '^\s*(#|$)' packages.txt)
 
 # ---- 6. record what the catalogue now holds ---------------------------------
-if ! git diff --quiet -- packages.txt; then
-  git add packages.txt
+git add -A docs packages.txt
+if ! git diff --cached --quiet; then
   git commit -q -m "Catalogue: $(grep -vE '^\s*(#|$)' packages.txt | awk '{printf "%s%s %s", (NR>1?", ":""), $3, $2}')"
   git push -q
-  say "packages.txt committed and pushed"
+  say "packages.txt and the web page committed and pushed"
 fi
 say "done. Catalogue address: https://raw.githubusercontent.com/${REPO}/main/logos-repo.json"
