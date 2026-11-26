@@ -72,7 +72,7 @@ for p in packages:
         links.append(f'<a href="{e(info["guide"])}">Step-by-step guide</a>')
     if info.get("source"):
         links.append(f'<a href="{e(info["source"])}">Source</a>')
-    links.append(f'<a href="{e(v["url"])}">Package file</a>')
+    links.append(f'<a href="{e(v["url"])}">Download (.lgx)</a>')
     needs_html = ""
     if needs:
         needs_html += '<p class="meta"><span class="label">Needs</span> ' + " ".join(f"<code>{e(n)}</code>" for n in needs) + " <span class=\"hint\">from the official Logos catalogue; Basecamp fetches it for you</span></p>"
