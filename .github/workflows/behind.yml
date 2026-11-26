@@ -26,7 +26,8 @@ jobs:
           set -euo pipefail
           behind=""
           while read -r repo tag name attach <&3; do
-            latest="$(gh api "repos/${repo}/releases/latest" --jq .tag_name)"
+            latest="$(gh api "repos/${repo}/releases?per_page=20" --jq '[.[] | select(.draft | not)][0].tag_name // empty')"
+            [ -n "$latest" ] || { echo "cannot read releases of ${repo}"; exit 1; }
             if [ "$latest" != "$tag" ]; then
               behind="${behind}- ${name}: the catalogue has ${tag}, the newest release is ${latest} (${repo})"$'\n'
             fi

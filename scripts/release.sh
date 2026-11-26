@@ -15,7 +15,7 @@
 #   4. checks every package is signed by the key logos-repo.json trusts,
 #      uploads new packages, rebuilds and uploads the listing
 #   5. for lines marked "attach", puts the signed package on the app's own
-#      release as <package>.lgx
+#      release as <package>.lgx and makes that release the app's latest
 #   6. commits and pushes packages.txt
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -50,7 +50,11 @@ tmp="$(mktemp)"; behind=0
 while IFS= read -r line <&3; do
   case "$line" in ''|'#'*) printf '%s\n' "$line" >> "$tmp"; continue;; esac
   read -r repo tag name attach <<< "$line"
-  latest="$(gh api "repos/${repo}/releases/latest" --jq .tag_name)" || die "cannot read the newest release of ${repo}"
+  # Newest published release, pre-releases included: an app may publish a
+  # version as a pre-release first and let step 5 make it the latest once the
+  # signed package is attached.
+  latest="$(gh api "repos/${repo}/releases?per_page=20" --jq '[.[] | select(.draft | not)][0].tag_name // empty')"
+  [ -n "$latest" ] || die "cannot read the newest release of ${repo}"
   if [ "$latest" != "$tag" ]; then
     say "${name}: ${tag} -> ${latest}"; behind=1; tag="$latest"
   fi
@@ -121,7 +125,8 @@ while read -r repo tag name attach <&3; do
   ( cd staging && shasum -a 256 "${name}.lgx" > "${name}.lgx.sha256" )
   gh release upload "$tag" "staging/${name}.lgx" "staging/${name}.lgx.sha256" --repo "$repo" --clobber >/dev/null
   rm -f "staging/${name}.lgx" "staging/${name}.lgx.sha256"
-  say "${name} ${version}: signed package attached to ${repo} ${tag}"
+  gh release edit "$tag" --repo "$repo" --prerelease=false --latest >/dev/null
+  say "${name} ${version}: signed package attached to ${repo} ${tag}, now its latest release"
 done 3< <(grep -vE '^\s*(#|$)' packages.txt)
 
 # ---- 6. record what the catalogue now holds ---------------------------------
