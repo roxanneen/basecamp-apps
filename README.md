@@ -24,15 +24,16 @@ Intel Macs, phones or tablets.
 
 You need Basecamp 0.3.2 or newer.
 
-1. In Basecamp, open **Package Manager**.
+1. Open Basecamp and click **Applications** in the menu on the right.
 2. Click **Manage Repositories**.
-3. Add this address:
+3. Paste this address into **Add a repository** and click **Add**:
 
    ```
    https://raw.githubusercontent.com/roxanneen/basecamp-apps/main/logos-repo.json
    ```
 
-4. Go back to the package list. The four apps appear there. Pick one and install it.
+4. Go back to **Applications** and scroll down to **Basecamp apps by thehat**. The four apps are
+   listed there. Click one to install it.
 
 Basecamp shows these packages as signed by **thehat**. Updates arrive through the same list.
 
