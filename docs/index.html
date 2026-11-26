@@ -66,6 +66,7 @@
   .trust { color: var(--muted); }
   .trust li { margin: 6px 0; }
   .trust strong { color: var(--text); }
+  .fp code { display: inline-block; font-size: 1.35rem; letter-spacing: 0.08em; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--text); background: var(--surface); }
   .key { display: block; margin-top: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; }
   .foot { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.9rem; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -104,7 +105,7 @@
           <img class="icon" src="icons/dc7ba98bd40924ec49b4c04f7279f33f93cbc75344da8681c8bac98ff78ed08c.png" alt="" width="56" height="56">
           <div>
             <h3>Manifesto</h3>
-            <p class="tags"><span class="tag">social</span><span class="tag signed">signed by thehat</span></p>
+            <p class="tags"><span class="tag">social</span><span class="tag signed" title="key fingerprint 6AB9 AD2D 6E8D FA6D">signed by thehat · 6AB9 AD2D 6E8D FA6D</span></p>
           </div>
         </header>
         <p class="blurb">Read the Logos manifesto and sign it in one click. The app makes a signing key for you, so you need no account, and anyone can check your signature without a server.</p>
@@ -120,7 +121,7 @@
           <img class="icon" src="icons/2b100fd8d456b4d015f6390303b42a5ff402784aef138744951f5bc9bcb7c976.png" alt="" width="56" height="56">
           <div>
             <h3>OneSecret</h3>
-            <p class="tags"><span class="tag">privacy</span><span class="tag signed">signed by thehat</span></p>
+            <p class="tags"><span class="tag">privacy</span><span class="tag signed" title="key fingerprint 6AB9 AD2D 6E8D FA6D">signed by thehat · 6AB9 AD2D 6E8D FA6D</span></p>
           </div>
         </header>
         <p class="blurb">Share a secret that can be read once. You paste it and get a link. Whoever opens the link gets the secret, and your own Basecamp destroys the key on the first read. There is no server.</p>
@@ -136,7 +137,7 @@
           <img class="icon" src="icons/0d095b65e10bb831a7dd0a2a724589da281eae97521bf134aed28c6645177a6d.png" alt="" width="56" height="56">
           <div>
             <h3>Chess</h3>
-            <p class="tags"><span class="tag">games</span><span class="tag signed">signed by thehat</span></p>
+            <p class="tags"><span class="tag">games</span><span class="tag signed" title="key fingerprint 6AB9 AD2D 6E8D FA6D">signed by thehat · 6AB9 AD2D 6E8D FA6D</span></p>
           </div>
         </header>
         <p class="blurb">Play chess against the Stockfish engine, pass and play on one computer, or play a friend online with chat.</p>
@@ -152,7 +153,7 @@
           <img class="icon" src="icons/f9f2af5da77d1406e45e194fe2a165b233d89cfaee53fe060ddadfecd971ac4f.png" alt="" width="56" height="56">
           <div>
             <h3>Presence pilot</h3>
-            <p class="tags"><span class="tag">privacy</span><span class="tag signed">signed by thehat</span></p>
+            <p class="tags"><span class="tag">privacy</span><span class="tag signed" title="key fingerprint 6AB9 AD2D 6E8D FA6D">signed by thehat · 6AB9 AD2D 6E8D FA6D</span></p>
           </div>
         </header>
         <p class="blurb">An experiment: presence beacons that rotate so an observer cannot link them to each other, while your friends still recognise you. Simulated locally or carried over Logos Messaging.</p>
@@ -172,7 +173,10 @@
     <li><strong>The signature says who published the file.</strong> It does not say the app is safe or reviewed. Each app's code is in its own repository, linked on its card.</li>
     <li><strong>This catalogue lists only these apps.</strong> It never lists a package from the official Logos catalogue.</li>
   </ul>
-  <p class="trust">Publisher key of <strong>thehat</strong>:
+  <p class="trust">Fingerprint of <strong>thehat</strong>'s key, as Basecamp shows it:</p>
+  <p class="fp"><code id="fp">6AB9 AD2D 6E8D FA6D</code></p>
+  <p class="trust">Newer versions of Basecamp show this fingerprint when you install, and offer <strong>Trust &amp; install</strong>. Check that it matches before you trust the publisher. After that, Basecamp lists it under <strong>Settings</strong>, <strong>Trusted Publishers</strong>, and installs from it without asking. Basecamp 0.3.2 does not show it yet.</p>
+  <p class="trust">Full key:
     <code class="key" id="did">did:jwk:eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6InZTcmo2S2JLellTXzFYdnU4YWNOYzd4SEJreTNjeTEzZmxJNXdjU21JWEUifQ</code>
   </p>
   <p><button class="copy ghost" type="button" data-copy="did">Copy key</button></p>

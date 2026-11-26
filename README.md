@@ -48,7 +48,13 @@ Basecamp shows these packages as signed by **thehat**. Updates arrive through th
 - **The signature says who published the file.** It does not say the app is safe or reviewed. The
   code for each app is in its own repository, linked above.
 
-Publisher key:
+Publisher key fingerprint, as Basecamp shows it: **`6AB9 AD2D 6E8D FA6D`**
+
+Newer versions of Basecamp show this fingerprint when you install, with a **Trust & install** button.
+Check that it matches before you trust the publisher; Basecamp then lists it under **Settings**,
+**Trusted Publishers**. Basecamp 0.3.2 does not have this yet and installs without asking.
+
+Full publisher key:
 
 ```
 did:jwk:eyJjcnYiOiJFZDI1NTE5Iiwia3R5IjoiT0tQIiwieCI6InZTcmo2S2JLellTXzFYdnU4YWNOYzd4SEJreTNjeTEzZmxJNXdjU21JWEUifQ

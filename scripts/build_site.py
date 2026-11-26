@@ -22,6 +22,16 @@ repo = json.load(open(os.path.join(ROOT, "logos-repo.json")))
 REPO_URL = "https://raw.githubusercontent.com/roxanneen/basecamp-apps/main/logos-repo.json"
 HOME = repo["homepage"]
 DID = repo["trustedSigners"][0]["did"]
+import base64, hashlib
+def fingerprint(did):
+    """What Basecamp shows for a key: the first 64 bits of the SHA-256 of the
+    raw Ed25519 public key, in four groups of four hex digits."""
+    b = did.split(":", 2)[2]
+    jwk = json.loads(base64.urlsafe_b64decode(b + "=" * (-len(b) % 4)))
+    x = base64.urlsafe_b64decode(jwk["x"] + "=" * (-len(jwk["x"]) % 4))
+    h = hashlib.sha256(x).hexdigest()[:16].upper()
+    return " ".join(h[i:i + 4] for i in range(0, 16, 4))
+FINGERPRINT = fingerprint(DID)
 SIGNER = repo["trustedSigners"][0].get("name", "")
 PLATFORMS = {"darwin-arm64": "macOS, Apple chip", "linux-amd64": "Linux x86_64", "linux-arm64": "Linux ARM64"}
 e = html.escape
@@ -76,7 +86,7 @@ for p in packages:
           {icon_html}
           <div>
             <h3>{e(title)}</h3>
-            <p class="tags"><span class="tag">{e(m.get('category', 'app'))}</span>{'<span class="tag signed">signed by ' + e(SIGNER) + '</span>' if signed else '<span class="tag unsigned">not signed</span>'}</p>
+            <p class="tags"><span class="tag">{e(m.get('category', 'app'))}</span>{'<span class="tag signed" title="key fingerprint ' + e(FINGERPRINT) + '">signed by ' + e(SIGNER) + ' · ' + e(FINGERPRINT) + '</span>' if signed else '<span class="tag unsigned">not signed</span>'}</p>
           </div>
         </header>
         <p class="blurb">{e(blurb)}</p>
@@ -156,6 +166,7 @@ page = f"""<!doctype html>
   .trust {{ color: var(--muted); }}
   .trust li {{ margin: 6px 0; }}
   .trust strong {{ color: var(--text); }}
+  .fp code {{ display: inline-block; font-size: 1.35rem; letter-spacing: 0.08em; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--text); background: var(--surface); }}
   .key {{ display: block; margin-top: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; user-select: all; }}
   .foot {{ margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--faint); font-size: 0.9rem; }}
   .sr {{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }}
@@ -198,7 +209,10 @@ page = f"""<!doctype html>
     <li><strong>The signature says who published the file.</strong> It does not say the app is safe or reviewed. Each app's code is in its own repository, linked on its card.</li>
     <li><strong>This catalogue lists only these apps.</strong> It never lists a package from the official Logos catalogue.</li>
   </ul>
-  <p class="trust">Publisher key of <strong>{e(SIGNER)}</strong>:
+  <p class="trust">Fingerprint of <strong>{e(SIGNER)}</strong>'s key, as Basecamp shows it:</p>
+  <p class="fp"><code id="fp">{e(FINGERPRINT)}</code></p>
+  <p class="trust">Newer versions of Basecamp show this fingerprint when you install, and offer <strong>Trust &amp; install</strong>. Check that it matches before you trust the publisher. After that, Basecamp lists it under <strong>Settings</strong>, <strong>Trusted Publishers</strong>, and installs from it without asking. Basecamp 0.3.2 does not show it yet.</p>
+  <p class="trust">Full key:
     <code class="key" id="did">{e(DID)}</code>
   </p>
   <p><button class="copy ghost" type="button" data-copy="did">Copy key</button></p>
